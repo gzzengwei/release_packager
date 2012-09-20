@@ -5,4 +5,10 @@ ReleasePackager::Application.routes.draw do
   root :to => "home#index"
   devise_for :users
   resources :users, :only => [:show, :index]
+
+  resources :releases do
+	member do
+	  get 'generate'
+	end  	
+  end
 end

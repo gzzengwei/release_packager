@@ -5,4 +5,11 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
 
+  before_filter :get_repo
+
+  def get_repo
+  	@repo = Grit::Repo.new(REPO_DIR)
+  end
+
+
 end

@@ -1,0 +1,63 @@
+%legend
+  New Release
+
+= simple_form_for(@release, :html => {:class => "form-horizontal"}) do |f|
+  = f.error_notification
+ 
+  %fieldset 
+    .row
+      .span12
+        .inputs
+          = f.input :commit_id, :collection => commits_collections(@commits), :input_html => { :class => 'span6'}
+      .span12
+        .inputs                
+          = f.input :release_tag, :input_html => { :class => 'span6'}
+      .span12
+        .inputs                
+          = f.input :release_message, :input_html => { :class => 'span6'}
+
+  %fieldset  
+    .actions
+      = f.button :submit, "Create Release", :class=> 'btn btn-primary', :disabled_with => 'Please Wait'
+
+
+%legend
+  Existing Releases
+
+.row
+  .span12
+    %table.table.table-striped
+      %thead
+        %tr
+          %th ID
+          %th Commit ID
+          %th Tag
+          %th Message
+          %th Package File
+          %th Created At
+          %th &nbsp
+
+
+      %tbody
+        - if @releases.blank? 
+          %tr
+            %td{:colspan => 6}
+              No releases records
+
+        - else
+          - @releases.each do |release|
+            %tr
+              %td
+                = release.id
+              %td
+                = release.commit_id
+              %td
+                = release.release_tag
+              %td
+                = release.release_message
+              %td
+                = release.package_file_name
+              %td
+                = release.created_at.strftime('%d/%m/%Y %I:%m %p')
+              %td
+                = link_to "ReGenerate", generate_release_path(release) , :class => "btn btn-primary"

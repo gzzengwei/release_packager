@@ -1,5 +1,11 @@
 = link_to "Release Packager", root_path, :class => 'brand'
-%ul.nav
+
+.nav-collapse
+  %ul.nav.pull-left
+    %li{:class => controller.controller_name == 'releases' ? 'active' : ''}
+      = link_to('Releases', releases_path)
+
+%ul.nav.pull-right
   - if user_signed_in?
     %li
       = link_to 'Logout', destroy_user_session_path, :method=>'delete'

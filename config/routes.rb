@@ -1,8 +1,9 @@
 ReleasePackager::Application.routes.draw do
   authenticated :user do
-    root :to => 'home#index'
+    root :to => 'releases#index'
   end
-  root :to => "home#index"
+  root :to => "releases#index"
+
   devise_for :users
   resources :users, :only => [:show, :index]
 
@@ -11,4 +12,7 @@ ReleasePackager::Application.routes.draw do
 	  get 'generate'
 	end  	
   end
+
+  resources :system_configs
+  
 end

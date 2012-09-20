@@ -1,16 +1,12 @@
 class Release < ActiveRecord::Base
   attr_accessible :commit_id, :release_tag, :release_message
 
-  before_save :pack_release
+  before_save :set_attrs, :pack_release
 
   default_scope :order => "created_at DESC"
 
-  def self.last_commit_id
-  	Release.last.commit_id
-  end
-
   def self.valid_commits
-  	@repo = Grit::Repo.new(REPO_DIR)
+  	@repo = Grit::Repo.new(SystemConfig.first.repo_dir)
   	if Release.count == 0
       @repo.commits
   	else
@@ -19,12 +15,15 @@ class Release < ActiveRecord::Base
   	end
   end
 
-  def pack_release
+  def set_attrs
   	self.release_tag.gsub!(' ', '_')
   	self.package_file_name = "#{self.release_tag}_#{Time.now.strftime('%d_%m_%Y-%I_%M_%p')}.zip"
-  	package_file_path = File.join(PACKAGE_DIR, self.package_file_name)
-  	`cd #{REPO_DIR} && git checkout #{self.commit_id} && git tag #{self.release_tag} #{self.commit_id}`
-  	`zip -r -q #{package_file_path} #{REPO_DIR}`
+  	self.package_file_path = File.join(SystemConfig.first.package_dir, self.package_file_name)
+  end
+
+  def pack_release
+  	`cd #{SystemConfig.first.repo_dir} && git checkout #{SystemConfig.first.repo_branch} && git checkout #{self.commit_id} && git tag #{self.release_tag} #{self.commit_id}`
+  	`zip -r -q #{self.package_file_path} #{SystemConfig.first.repo_dir}`
   end
 
 

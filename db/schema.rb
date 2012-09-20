@@ -11,13 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120919233429) do
+ActiveRecord::Schema.define(:version => 20120920050614) do
 
   create_table "releases", :force => true do |t|
     t.string   "commit_id"
     t.string   "release_tag"
     t.string   "release_message"
     t.string   "package_file_name"
+    t.string   "package_file_path"
     t.boolean  "enabled"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
@@ -33,6 +34,15 @@ ActiveRecord::Schema.define(:version => 20120919233429) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "system_configs", :force => true do |t|
+    t.string   "repo_name"
+    t.string   "repo_dir"
+    t.string   "repo_branch"
+    t.string   "package_dir"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false

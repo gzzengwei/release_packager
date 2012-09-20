@@ -56,7 +56,8 @@
               %td
                 = release.release_message
               %td
-                = release.package_file_name
+                %div{:title => release.package_file_path}
+                  = release.package_file_name
               %td
                 = release.created_at.strftime('%d/%m/%Y %I:%m %p')
               %td

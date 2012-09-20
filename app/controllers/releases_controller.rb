@@ -1,13 +1,18 @@
 class ReleasesController < ApplicationController
+
+
   def index
-  	@commits = Release.valid_commits
-  	@releases = Release.all
-  	@release = Release.new
+  	if SystemConfig.first.blank?
+  	  redirect_to :controller => 'system_configs', :action => 'new'
+  	else
+	  @commits = Release.valid_commits
+	  @releases = Release.all
+	  @release = Release.new
+  	end	
   end
 
   def new
   	@release = Release.new
-  	# @commits = Release.valid_commits.map{|commit| ["#{commit.authored_date.to_date} -#{commit.author} - #{commit.message}", commit.id]}
   	@commits = Release.valid_commits
   end
 
@@ -26,4 +31,6 @@ class ReleasesController < ApplicationController
   	release.save
 	redirect_to :action => 'index'
   end
+ 
+
 end

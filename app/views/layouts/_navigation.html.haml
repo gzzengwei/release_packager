@@ -4,6 +4,8 @@
   %ul.nav.pull-left
     %li{:class => controller.controller_name == 'releases' ? 'active' : ''}
       = link_to('Releases', releases_path)
+    %li{:class => controller.controller_name == 'system_configs' ? 'active' : ''}
+      = link_to('Configs', system_configs_path)
 
 %ul.nav.pull-right
   - if user_signed_in?

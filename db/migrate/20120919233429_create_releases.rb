@@ -5,8 +5,9 @@ class CreateReleases < ActiveRecord::Migration
       t.string :release_tag
       t.string :release_message
       t.string :package_file_name
+      t.string :package_file_path
       t.boolean :enabled
-      
+
       t.timestamps
     end
   end
